@@ -58,7 +58,7 @@ def precasting(minx, miny, xw, yw, xyreso, yawreso):
 
     precast = [[] for i in range(int(round((math.pi * 2.0) / yawreso)) + 1)]
     num_angleid = int(round((math.pi * 2.0) / yawreso))
-    print("num_angleid"+str(num_angleid))
+    # print("num_angleid"+str(num_angleid))
     # print(precast)
 
     for ix in range(xw):
@@ -96,7 +96,8 @@ def generate_ray_casting_grid_map(ox, oy, xyreso, yawreso, agent_x=0.0, agent_y=
 
     #if agent angle is 0 
     fov_type, fov_anglelist = gnerate_fov_angles(math.pi/2, math.pi)
-    print(len(fov_anglelist))
+    # print(fov_anglelist)
+    # input("enter to conitinue")
 
     # generate fov grid
     num_angleid = int(round((math.pi * 2.0) / yawreso))
@@ -137,7 +138,12 @@ def generate_ray_casting_grid_map(ox, oy, xyreso, yawreso, agent_x=0.0, agent_y=
     for (x, y) in zip(ox, oy):
 
         d = math.sqrt(x**2 + y**2)
+
         angle = atan_zero_to_twopi(y, x)
+        
+        #check fov
+        if angle >= fov_anglelist[1] or angle <=fov_anglelist[0]:
+            continue
         angleid = int(math.floor(angle / yawreso))
 
         gridlist = precast[angleid]
@@ -210,7 +216,7 @@ def main():
             plt.plot(ox, oy, "xr")
             plt.plot(0.0, 0.0, "ob")
             plt.pause(1.0)
-        input("enter to continue")
+        # input("enter to continue")
 
 
 if __name__ == '__main__':
